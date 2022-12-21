@@ -3,6 +3,7 @@
 This module defines a simple `Square` class
 """
 
+
 class Square:
     """A simple ``Square`` class
     Attributes:
