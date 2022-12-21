@@ -1,67 +1,80 @@
 #!/usr/bin/python3
-class Square:
-    
-    """ Class Square that defines methods and attributes for a square object"""
+"""Square module definition.
+This module defines a simple `Square` class
+"""
 
+class Square:
+    """A simple ``Square`` class
+    Attributes:
+    size (`int`): The size of the ``Square``.
+    """
     def __init__(self, size=0, position=(0, 0)):
-        """ Class Constructor"""
+        """Constructs a ``Square`` objet
+        Args:
+        size (`int`): The size of the ``Square``.
+        The default value is 0.
+        Raises:
+        TypeError: If ``size`` is not an integer.
+        ValueError: If ``size`` < 0
+        """
         self.size = size
         self.position = position
         
+    def __str__(self):
+        res = ""
+        if self.size:
+            line = " " * self.position[0] + "#" * self.size
+            res = "\n" * self.position[1]
+            res += (line + "\n") * (self.size - 1)
+            res += line
+        return res
+            
+    def area(self):
+        """Computes the area of the ``Square``.
+        Returns:
+        int: The area of the ``Square``.
+        """
+        return self.size ** 2
+        
     @property
     def size(self):
-        """ Private Attribute size Getter """
-        return (self.__size)
+        """
+        Args:
+        size (`int`): The size of the ``Square``.
+        The default value is 0.
+        Raises:
+        TypeError: If ``size`` is not an integer.
+        ValueError: If ``size`` < 0
+        """
+        return self._Square__size
         
     @size.setter
-    def size(self, value):
-        """ Private Attribute size Setter """
-        if not isinstance(value, int):
+    def size(self, size):
+        if not isinstance(size, int):
             raise TypeError("size must be an integer")
-        elif value < 0:
+        elif size < 0:
             raise ValueError("size must be >= 0")
         else:
-            self.__size = value
+            self._Square__size = size
             
     @property
     def position(self):
-        """ Private Attribute position Getter """
-        return (self.__position)
+        """
+        Args:
+        position (:obj: `tuple` of `int`): The position to start to
+        print the ``Square``.
+        Raises:
+        TypeError: If ``position`` is not a tuple of 2 integers
+        """
+        return self._Square__position
         
     @position.setter
-    def position(self, value):
-        """ Private Attribute position Setter """
-        if (not isinstance(value, tuple) or len(value) != 2):
-            raise TypeError("position must be a tuple of 2 positive integers")
-        elif (value[0] < 0 or value[1] < 0):
+    def position(self, position):
+        if not isinstance(position, tuple):
             raise TypeError("position must be a tuple of 2 positive integers")
         else:
-            self.__position = value
+            self._Square__position = position
             
-    def area(self):
-        """ Method that calculates current square area """
-        return (self.__size * self.__size)
-        
     def my_print(self):
-        """ Method that prints in stdout the square with the char # """
-        if self.size == 0:
-            print()
-        else:
-            for i in range(self.__position[1]):
-                print()
-                for j in range(self.size):
-                    print("{}{}".format(' '*self.__position[0], '#'*self.__size))
-                    
-    def __str__(self):
-        """ Prints square to stdout """
-        sqstr = ""
-        if self.size == 0:
-            return (sqstr)
-        else:
-            for i in range(self.position[1]):
-                sqstr += "\n"
-                for j in range(self.size):
-                    sqstr += "{}{}".format(' '*self.__position[0], '#'*self.__size)
-                    if j != (self.size - 1):
-                        sqstr += "\n"
-                        return (sqstr)
+        """Prints a ``Square`` filled with '#'"""
+        print(self)

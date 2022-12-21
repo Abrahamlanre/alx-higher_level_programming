@@ -1,68 +1,73 @@
 #!/usr/bin/python3
+"""module for a singly linked list"""
+
 class Node:
-    """ Defines a node of a singly linked list """
+    """"defines a node"""
+    
     def __init__(self, data, next_node=None):
-        """ Class Constructor """
+        """initializes the node with instance variables"""
         self.data = data
         self.next_node = next_node
         
     @property
     def data(self):
-        """ data Getter """
+        """gets data attribute"""
         return (self.__data)
-            
+        
     @data.setter
     def data(self, value):
-        """ data Setter """
-        if isinstance(value, int):
+        """sets data attribute"""
+        if not isinstance(value, int):
+            raise TypeError('data must be an integer')
             self.__data = value
-        else:
-            raise TypeError("data must be an integer")
-                
+            
     @property
     def next_node(self):
-        """ next_node Getter """
+        """get next_node attribute
+        Returns: next node
+        """
         return (self.__next_node)
         
     @next_node.setter
     def next_node(self, value):
-        """ next_node Setter """
-        if isinstance(value, Node) or value is None:
+        """set value of next node"""
+        if (value is not None and not isinstance(value, Node)):
+            raise TypeError('next_node must be a Node object')
             self.__next_node = value
-        else:
-            raise TypeError("next_node must be a Node object")
-                
-                
+
+
 class SinglyLinkedList:
-    """ Defines a singly linked list """
+    """defines a singly linked list"""
+    
     def __init__(self):
-        """ Class Constructor """
-        self.__head = None
-        
-    def sorted_insert(self, value):
-        """ Inserts a new Node into the correct sorted position in the list(Increasing order)"""
-        
-        new_node = Node(value)
-        if not self.__head or self.__head.data >= value:
-            new_node.next_node = self.__head
-            self.__head = new_node
-        else:
-            tmp1 = self.__head
-            tmp2 = tmp1.next_node
-            while (tmp1 and tmp2 and (tmp2.data < value)):
-                tmp1 = tmp1.next_node
-                tmp2 = tmp1.next_node
-            
-            new_node.next_node = tmp2
-            tmp1.next_node = new_node
-            
+        """Initializes the singly linked list"""
+        self.head = None
+
     def __str__(self):
-        """ Prints singly linked list """
-        tmp = self.__head
-        sllstr = ""
-        while (tmp):
-            sllstr += str(tmp.data)
-            tmp = tmp.next_node
-            if (tmp):
-                sllstr += "\n"
-                return (sllstr)
+        """make list printable"""
+        printsll = ""
+        location = self.head
+        while location:
+            printsll += str(location.data) + "\n"
+            location = location.next_node
+        return printsll[:-1]
+            
+    def sorted_insert(self, value):
+        """insert in a sorted fashion
+        Args:
+        value: what the value will be on the node
+        """
+        new = Node(value)
+        if not self.head:
+            self.head = new
+            return
+            if value < self.head.data:
+                new.next_node = self.head
+                self.head = new
+                return
+            location = self.head
+            while location.next_node and location.next_node.data < value:
+                location = location.next_node
+                if location.next_node:
+                    new.next_node = location.next_node
+                    location.next_node = new
